@@ -1,2 +1,570 @@
-# ramdom-shell-scripts
-Random Shell Scripts
+# Server Setup
+
+### Update the system
+
+```
+$ sudo apt update && sudo apt -y upgrade && sudo apt -y autoremove
+```
+
+### Change user password
+
+```
+$ sudo passwd {username}
+```
+
+### Create sudo user
+
+```
+$ sudo adduser {user}
+$ sudo adduser {user} sudo
+```
+
+Create user without home
+
+```
+sudo adduser --system --no-create-home USERNAME
+```
+
+### Install Open SSH server
+
+```
+$ sudo apt install openssh-server
+```
+
+### Install basic server software
+
+```
+$ sudo apt install supervisor htop ufw python3 snapd curl unzip
+$ sudo snap install core && sudo snap refresh core
+```
+
+### Installing Open Java and Javac
+
+```
+$ sudo apt install openjdk-11-jre-headless openjdk-11-jdk-headless
+```
+
+View java alternatives
+```
+$ sudo update-alternatives --display java
+```
+
+Uninstall Open Java
+```
+$ sudo apt-get purge openjdk-*
+```
+
+# Install Android SDK
+
+Clone the random-shell-scripts to get 
+
+```
+$ git clone git@github.com:christopherigm/random-shell-scripts.git
+```
+
+export ANDROID_SDK_ROOT=/home/chris/android-sdk
+export JAVA_HOME=/home/chris/android-sdk/jdk1.8.0_281
+export PATH=${PATH}:/home/chris/android-sdk/gradle-7.0/bin:/latest:/home/chris/android-sdk/cmdline-tools/latest/bin
+
+# Data Bases
+
+### Install MySQL
+
+```
+$ sudo apt install mysql-server
+```
+
+### Install PostgreSQL
+```
+$ sudo apt install postgresql postgresql-contrib postgis
+```
+# Web Servers
+
+### Nginx
+```
+$ sudo apt install nginx
+```
+
+# Apache
+```
+$ sudo apt install apache2
+$ sudo a2enmod rewrite
+$ sudo a2enmod ssl
+$ sudo apt install php php-cli php-mcrypt libapache2-mod-php php-mysql
+$ sudo apt-get install php-xml
+$ sudo apt-get install php-mbstring
+$ sudo apt-get install php-curl
+```
+
+### Python & VirtualEnvs
+```
+$ sudo apt install libpq-dev python-dev python3-dev build-essential python-setuptools postgresql-server-dev-all python3-distutils
+```
+
+Installing PIP
+
+```
+$ wget https://bootstrap.pypa.io/get-pip.py
+$ sudo python3 get-pip.py
+$ sudo pip install virtualenv virtualenvwrapper django-admin-tools
+```
+
+Add env variables
+
+```
+$ vim ~/.bashrc
+```
+Add:
+```
+alias python=python3
+alias pip=pip3
+VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3
+export WORKON_HOME=/home/${USER}/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+```
+Reload the bash:
+```
+$ . ~/.bashrc
+```
+
+### Installing NodeJS
+
+[NodeJS](https://github.com/nodesource/distributions/blob/master/README.md)
+
+[Fix watchers](https://www.nicesnippets.com/blog/solved-system-limit-for-number-of-file-watchers-reached-reactjs)
+
+```
+# Using Ubuntu
+$ curl -fsSL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+$ sudo apt-get install -y nodejs
+
+# Fix watchers
+$ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
+$ sudo sysctl -p
+```
+
+### Generate SSH key
+
+```
+# Ed25519 algorithm
+$ ssh-keygen -t ed25519 -C christopher.guzman.monsalvo@gmail.com
+
+# 4096 bits
+$ ssh-keygen -t rsa -b 4096 -C christopher.guzman.monsalvo@gmail.com
+```
+
+### Copy SSH ID identity to server
+
+```
+$ ssh-copy-id christopher@host.com
+```
+
+### Installing Git Prompt
+[Repository](https://github.com/magicmonty/bash-git-prompt)
+
+```
+$ git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1
+```
+Add to the ~/.bashrc:
+
+```
+if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
+    GIT_PROMPT_ONLY_IN_REPO=1
+    source $HOME/.bash-git-prompt/gitprompt.sh
+fi
+```
+
+Reload the bash:
+
+```
+. ~/.bashrc
+```
+
+# Installing Jenkins
+
+[Reference](https://www.jenkins.io/doc/book/installing/linux/)
+
+```
+$ wget -q -O - https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo apt-key add -
+$ sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > \
+    /etc/apt/sources.list.d/jenkins.list'
+$ sudo apt update && sudo apt -y install jenkins
+```
+
+[Configure Nginx for jenkins](https://www.jenkins.io/doc/book/system-administration/reverse-proxy-configuration-nginx/)
+
+
+Create SSH key for jenkins
+
+[Reference](https://devops4solutions.medium.com/setup-ssh-between-jenkins-and-github-6ec7c7933244)
+
+```
+$ sudo -su jenkins
+$ ssh-keygen
+$ eval $(ssh-agent -s)
+$ ssh-add ~/.ssh/id_rsa
+```
+
+Get public Key to be set in Github
+
+```
+$ sudo cat /var/lib/jenkins/.ssh/id_rsa.pub
+```
+
+Get private key to be set in Jenkins
+
+```
+$ sudo cat /var/lib/jenkins/.ssh/id_rsa
+```
+
+# Create a React App with TypeScript
+
+[Reference to create React App](https://create-react-app.dev/docs/adding-typescript/)
+
+[Reference to add Sass](https://www.cluemediator.com/how-to-add-sass-or-scss-in-react)
+
+Create the app and add Sass
+
+```
+$ npx create-react-app my-app --template typescript
+$ npm i node-sass
+```
+
+
+# Working with MySQL
+
+Login into the shell
+```
+$ mysql -h localhost -u root -p
+```
+Switch to DB
+```
+mysql> use mysql;
+```
+Change user password
+```
+mysql> SET PASSWORD FOR 'user'@'hostname' = PASSWORD('new-password');
+mysql> FLUSH PRIVILEGES;
+```
+
+Create MySQL user
+```
+mysql> CREATE USER 'user'@'localhost' IDENTIFIED BY 'password'
+mysql> GRANT ALL PRIVILEGES ON * . * TO 'user'@'localhost';
+mysql> FLUSH PRIVILEGES;
+```
+Delete user
+```
+mysql> DROP USER 'user@'localhost';
+```
+
+
+# Working with PostgreSQL
+
+Login into the shell
+```
+$ sudo -su postgres
+$ psql
+```
+
+Common actions:
+```
+# Connect to DB
+$ \c DBNAME
+
+# List tables
+$ \dt
+
+# Create user
+$ CREATE USER root PASSWORD 'root';
+
+# Create Database
+$ CREATE DATABASE sample WITH OWNER root;
+$ GRANT ALL PRIVILEGES ON DATABASE sample TO root;
+
+#Delete database
+$ DROP DATABASE sample;
+```
+
+### Backup database
+[Reference](https://www.digitalocean.com/community/tutorials/how-to-backup-postgresql-databases-on-an-ubuntu-vps)
+```
+$ sudo su - postgres
+$ pg_dump postgres > postgres_db.bak
+$ createdb -T template0 restored_database
+$ psql restored_database < database.bak
+```
+
+### Using PostGIS
+[Reference](https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-postgis-on-ubuntu-14-04)
+```
+$ sudo -su postgres
+$ psql -d DATABASE_NAME
+$ CREATE EXTENSION postgis;
+$ SELECT PostGIS_version();
+```
+
+# MongoDB
+
+Dump Mongo DB
+```
+$ sudo mongodump --db newdb
+```
+
+DB backups
+
+[Reference](https://www.digitalocean.com/community/tutorials/how-to-back-up-restore-and-migrate-a-mongodb-database-on-ubuntu-14-04)
+
+```
+$ sudo mkdir /var/backups/mongobackups
+```
+
+Single backup
+```
+$ sudo mongodump --db newdb --out /var/backups/mongobackups/`date +"%m-%d-%y"`
+
+```
+
+MongoDB backups with crontab
+```
+$ sudo crontab -e
+```
+
+Add:
+```
+3 3 * * * mongodump --out /var/backups/mongobackups/`date +"%m-%d-%y"`
+```
+
+Restore Mongo DB
+
+```
+$ sudo mongorestore --db newdb --drop /var/backups/mongobackups/01-20-16/newdb/
+```
+
+
+# Working with Supervisor
+
+Create a file
+```
+$ sudo vim /etc/supervisor/conf.d/long_script.conf
+```
+
+Add:
+```
+[program:long_script]
+directory=/home/user/
+command=long.sh
+autostart=true
+autorestart=true
+stderr_logfile=/var/log/long.err.log
+stdout_logfile=/var/log/long.out.log
+```
+
+Reload the system
+```
+$ sudo supervisorctl reread
+$ sudo supervisorctl update
+```
+
+Status, stop and start workers
+```
+$ sudo supervisorctl status
+$ sudo supervisorctl stop <name>
+$ sudo supervisorctl start <name>
+$ sudo supervisorctl restart <name>
+```
+
+
+# Setting up UWF firewall
+
+[Reference](https://www.digitalocean.com/community/tutorials/how-to-setup-a-firewall-with-ufw-on-an-ubuntu-and-debian-cloud-server)
+
+```
+$ sudo ufw status
+```
+
+Allow or deny ports or apps
+```
+$ sudo ufw allow ssh
+$ sudo ufw allow 22/tcp
+$ sudo ufw allow 80/tc
+$ sudo ufw deny 80/tcp
+$ sudo ufw delete allow ssh
+$ sudo ufw delete allow 80/tcp
+$ sudo ufw status numbered
+```
+
+See the list of apps
+```
+$ sudo ufw app list
+```
+
+Enable / disable firewall
+
+```
+$ sudo ufw disable
+$ sudo ufw enable
+```
+
+# Backup and install PIP requirements
+
+```
+$ pip freeze -l > requiriments.txt
+$ pip install -r requiriments.txt
+```
+
+# Working with VirtualEnv
+
+Use a virtualenv
+```
+$ workon <name>
+```
+
+List all virtualenv
+```
+$ workon
+```
+
+Create a virtualenv
+```
+$ mkvirtualenv -p /usr/bin/python3 <name>
+```
+
+Delete a virtualenv
+```
+$ rmvirtualenv <name>
+```
+
+# Supervisor + GUInicorn + Django
+
+```
+[program:app]
+command=/home/${user}/.virtualenvs/app/bin/gunicorn --bind 0.0.0.0:4001 --workers 1 --reload  webpage.wsgi:application
+directory=/var/www/apps/app/webpage/
+autostart=true
+autorestart=true
+stderr_logfile=/var/log/apps/app/error.log
+stdout_logfile=/var/log/apps/app/output.log
+```
+
+
+# Adding GZIP to Nginx
+
+[Reference](https://www.digitalocean.com/community/tutorials/how-to-add-the-gzip-module-to-nginx-on-ubuntu-14-04)
+
+```
+$ sudo nano /etc/nginx/nginx.conf
+```
+
+Add:
+```
+gzip on;
+gzip_disable "msie6";
+
+gzip_vary on;
+gzip_proxied any;
+gzip_comp_level 6;
+gzip_buffers 16 8k;
+gzip_http_version 1.1;
+gzip_min_length 256;
+gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript application/vnd.ms-fontobject application/x-font-ttf font/opentype image/svg+xml image/x-icon;
+```
+
+
+# Nginx proxy configuration
+```
+server {
+  listen   80;
+
+  server_name iguzman.com www.iguzman.com.mx;
+
+  location /static/ {
+    autoindex on;
+    expires 30d;
+    add_header Vary Accept-Encoding;
+    access_log off;
+    alias /var/www/apps/iguzman/webpage/static/;
+  }
+
+  location / {
+    proxy_pass http://127.0.0.1:4000/;
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection 'upgrade';
+    proxy_set_header Host $host;
+    proxy_cache_bypass $http_upgrade;
+  }
+}
+```
+
+
+# SSL Free certificates
+
+Installing Certbot on Nginx
+
+[Reference](https://certbot.eff.org/lets-encrypt/ubuntufocal-nginx)
+
+
+Verifying Snap
+```
+$ sudo apt update && sudo apt install snapd
+$ sudo apt install supervisor htop ufw python3 snapd
+```
+
+Installing certbot
+```
+$ sudo snap install --classic certbot
+$ sudo ln -s /snap/bin/certbot /usr/bin/certbot
+```
+
+Adding certificate to Apache server:
+```
+$ sudo certbot --apache -d example.com -d www.example.com
+$ sudo service apahce2 restart
+```
+
+Adding certificate to Nginx server
+``` 
+$ sudo certbot --nginx -d example.com -d www.example.com
+$ sudo service nginx restart
+```
+
+Renewing certificates automatically
+
+```
+$ sudo certbot renew --dry-run
+```
+
+```
+$ sudo crontab -e
+```
+
+Add:
+```
+15 3 * * * /usr/bin/certbot renew --quiet
+```
+
+
+# Raspberry
+
+To Share Wifi - Ethernet Connetion
+
+```
+$ nm-connection-editor
+```
+
+Get IP
+```
+$ sudo dhclient -r
+```
+
+Enable SSH Interface
+```
+$ sudo raspi-config
+```
+> Interfacing Options -> SSH -> YES -> OK
+
+Some libraries
+```
+$ sudo apt-get install software-properties-common libjpeg8-dev zlib1g-dev libfreetype6-dev liblcms2-dev libwebp-dev tcl8.5-dev tk8.5-dev python-tk
+```
