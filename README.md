@@ -38,10 +38,10 @@ $ sudo apt install supervisor htop ufw python3 snapd curl unzip
 $ sudo snap install core && sudo snap refresh core
 ```
 
-### Installing Open Java and Javac
+# Installing Open JDK
 
 ```
-$ sudo apt install openjdk-11-jre-headless openjdk-11-jdk-headless
+$ sudo apt install -y openjdk-11-jre-headless openjdk-11-jdk-headless
 ```
 
 View java alternatives
@@ -54,17 +54,144 @@ Uninstall Open Java
 $ sudo apt-get purge openjdk-*
 ```
 
-# Install Android SDK
+# Installing Java Oracle
 
-Clone the random-shell-scripts to get 
+[Reference](https://docs.datastax.com/en/jdk-install/doc/jdk-install/installOracleJdkDeb.html)
+
+Create the JDK directory
 
 ```
-$ git clone git@github.com:christopherigm/random-shell-scripts.git
+$ sudo mkdir -p /usr/lib/jvm
 ```
 
-export ANDROID_SDK_ROOT=/home/chris/android-sdk
-export JAVA_HOME=/home/chris/android-sdk/jdk1.8.0_281
-export PATH=${PATH}:/home/chris/android-sdk/gradle-7.0/bin:/latest:/home/chris/android-sdk/cmdline-tools/latest/bin
+Go to [Oracle web page](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html) and download the JDK file "Linux x64 Compressed Archive" - **jdk-8u281-linux-x64.tar.gz**.
+
+Uncompress the JDK file:
+
+```
+$ tar zxfv jdk-8u281-linux-x64.tar.gz -C /usr/lib/jvm
+```
+
+Install the new alternative
+```
+$ sudo update-alternatives --install "/usr/bin/java" "java" "/usr/lib/jvm/jdk1.8.0_281/bin/java" 1
+```
+
+Set the new alternative as default
+```
+$ sudo update-alternatives --set java /usr/lib/jvm/jdk1.8.0_281/bin/java
+$ sudo update-alternatives --set javac /usr/lib/jvm/jdk1.8.0_281/bin/javac
+```
+
+# Installing Gradle
+
+[Reference](https://gradle.org/install/)
+
+Download and unzip gradle from [here](https://gradle.org/install/)
+
+```
+$ mkdir /opt/gradle
+$ unzip -d /opt/gradle gradle-7.0-bin.zip
+```
+
+Add gradle to the PATH environment variable in `.bashrc` file
+
+```
+$ vim ~/.bashrc
+```
+
+Add:
+
+```
+export PATH=${PATH}:/opt/gradle/gradle-7.0/bin
+```
+
+Reload the bash
+```
+$ . ~/.bashrc
+```
+
+
+# Installing Android SDK
+
+Create the `android-sdk` folder into `/opt` directory
+
+```
+$ mkdir /opt/android-sdk
+$ sudo chmod 777 -R /opt/android-sdk
+```
+
+Get the android SDK from [here](https://developer.android.com/studio#downloads)
+
+Navigate to 'Command line tools only' and download it.
+
+Unzip and copy it into `/opt/android-sdk/`
+
+```
+$ unzip commandlinetools-linux-6858069_latest.zip
+$ sudo cp -r cmdline-tools/ /opt/android-sdk/
+```
+
+Got to Android SDK and create the latest folder
+```
+$ cd /opt/android-sdk/cmdline-tools
+$ mkdir latest
+```
+
+Move files into latest folder
+```
+$ mv NOTICE.txt bin/ lib/ source.properties latest/
+```
+
+Add env variables to `~ ./bashrc` file
+```
+export ANDROID_SDK_ROOT=/opt/android-sdk
+export JAVA_HOME=/opt/android-sdk/jdk1.8.0_281
+export PATH=${PATH}:/opt/android-sdk/cmdline-tools/latest/bin
+```
+
+Reload the bash
+```
+$ . ~/.bashrc
+```
+
+Install Android SDK
+
+[sdkmanager reference](https://developer.android.com/studio/command-line/sdkmanager)
+```
+$ sdkmanager "platform-tools" "platforms;android-29" "build-tools;29.0.3"
+```
+
+# Apache Cordova
+
+[Reference](https://cordova.apache.org/)
+
+Install Apache Cordova globally
+```
+$ sudo npm install -g cordova
+```
+
+Create Cordova App
+```
+$ cordova create cordova-app
+```
+
+Add platforms
+```
+$ cd cordova-app
+$ cordova platform add browser
+$ cordova platform add android
+```
+
+Run in the browser
+```
+$ cordova run browser
+```
+
+Build android App
+```
+$ cordova build android
+```
 
 # Data Bases
 
