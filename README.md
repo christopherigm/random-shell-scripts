@@ -38,6 +38,52 @@ $ sudo apt install supervisor htop ufw python3 snapd curl unzip
 $ sudo snap install core && sudo snap refresh core
 ```
 
+### Generate SSH key
+
+```
+# Ed25519 algorithm
+$ ssh-keygen -t ed25519 -C christopher.guzman.monsalvo@gmail.com
+
+# 4096 bits
+$ ssh-keygen -t rsa -b 4096 -C christopher.guzman.monsalvo@gmail.com
+```
+
+Show ssh key
+```
+# Ed25519 algorithm
+$ cat ~/.ssh/id_ed25519.pub
+
+# 4096 bits
+$ cat ~/.ssh/id_rsa.pub
+```
+
+### Copy SSH ID identity to server
+
+```
+$ ssh-copy-id christopher@host.com
+```
+
+### Installing Git Prompt
+[Repository](https://github.com/magicmonty/bash-git-prompt)
+
+```
+$ git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1
+```
+Add to the ~/.bashrc:
+
+```
+if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
+    GIT_PROMPT_ONLY_IN_REPO=1
+    source $HOME/.bash-git-prompt/gitprompt.sh
+fi
+```
+
+Reload the bash:
+
+```
+. ~/.bashrc
+```
+
 # Installing Open JDK
 
 ```
@@ -268,43 +314,6 @@ $ sudo apt-get install -y nodejs
 # Fix watchers
 $ echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf
 $ sudo sysctl -p
-```
-
-### Generate SSH key
-
-```
-# Ed25519 algorithm
-$ ssh-keygen -t ed25519 -C christopher.guzman.monsalvo@gmail.com
-
-# 4096 bits
-$ ssh-keygen -t rsa -b 4096 -C christopher.guzman.monsalvo@gmail.com
-```
-
-### Copy SSH ID identity to server
-
-```
-$ ssh-copy-id christopher@host.com
-```
-
-### Installing Git Prompt
-[Repository](https://github.com/magicmonty/bash-git-prompt)
-
-```
-$ git clone https://github.com/magicmonty/bash-git-prompt.git ~/.bash-git-prompt --depth=1
-```
-Add to the ~/.bashrc:
-
-```
-if [ -f "$HOME/.bash-git-prompt/gitprompt.sh" ]; then
-    GIT_PROMPT_ONLY_IN_REPO=1
-    source $HOME/.bash-git-prompt/gitprompt.sh
-fi
-```
-
-Reload the bash:
-
-```
-. ~/.bashrc
 ```
 
 # Installing Jenkins
