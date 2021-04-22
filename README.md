@@ -115,7 +115,7 @@ Go to [Oracle web page](https://www.oracle.com/java/technologies/javase/javase-j
 Uncompress the JDK file:
 
 ```
-$ tar zxfv jdk-8u281-linux-x64.tar.gz -C /usr/lib/jvm
+$ sudo tar zxfv jdk-8u281-linux-x64.tar.gz -C /usr/lib/jvm
 ```
 
 Install the new alternative
@@ -136,8 +136,8 @@ $ sudo update-alternatives --set javac /usr/lib/jvm/jdk1.8.0_281/bin/javac
 Download and unzip gradle from [here](https://gradle.org/install/)
 
 ```
-$ mkdir /opt/gradle
-$ unzip -d /opt/gradle gradle-7.0-bin.zip
+$ sudo mkdir /opt/gradle
+$ sudo unzip -d /opt/gradle gradle-7.0-bin.zip
 ```
 
 Add gradle to the PATH environment variable in `.bashrc` file
@@ -163,7 +163,7 @@ $ . ~/.bashrc
 Create the `android-sdk` folder into `/opt` directory
 
 ```
-$ mkdir /opt/android-sdk
+$ sudo mkdir /opt/android-sdk
 $ sudo chmod 777 -R /opt/android-sdk
 ```
 
@@ -181,18 +181,18 @@ $ sudo cp -r cmdline-tools/ /opt/android-sdk/
 Got to Android SDK and create the latest folder
 ```
 $ cd /opt/android-sdk/cmdline-tools
-$ mkdir latest
+$ sudo mkdir latest
 ```
 
 Move files into latest folder
 ```
-$ mv NOTICE.txt bin/ lib/ source.properties latest/
+$ sudo mv NOTICE.txt bin/ lib/ source.properties latest/
 ```
 
 Add env variables to `~ ./bashrc` file
 ```
 export ANDROID_SDK_ROOT=/opt/android-sdk
-export JAVA_HOME=/opt/android-sdk/jdk1.8.0_281
+export JAVA_HOME=/usr/lib/jvm/jdk1.8.0_281
 export PATH=${PATH}:/opt/android-sdk/cmdline-tools/latest/bin
 ```
 
