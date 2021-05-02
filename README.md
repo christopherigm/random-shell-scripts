@@ -353,6 +353,22 @@ Get private key to be set in Jenkins
 $ sudo cat /var/lib/jenkins/.ssh/id_rsa
 ```
 
+Run sudo on Jenkins without password
+
+[Reference](https://sgoyal.net/2016/11/18/run-a-shell-from-jenkins-using-sudo-ubuntu/)
+
+```
+$ sudo visudo /etc/sudoers
+```
+
+Add:
+
+```
+jenkins ALL=(ALL) NOPASSWD: ALL
+```
+
+Save and run sudo commands with Jenkins and not pass any password
+
 # Create a React App with TypeScript
 
 [Reference to create React App](https://create-react-app.dev/docs/adding-typescript/)
