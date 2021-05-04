@@ -4,7 +4,7 @@ Replace all string in a file
 [Reference](https://linuxhint.com/replace_string_in_file_bash/)
 
 ```
-$ sed -i 's/search_string/replace_string/gi' filename
+$ sed -i 's/search_string/replace_string/g' filename
 ```
 
 Read from input
