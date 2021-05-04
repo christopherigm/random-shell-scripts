@@ -358,7 +358,7 @@ Run sudo on Jenkins without password
 [Reference](https://sgoyal.net/2016/11/18/run-a-shell-from-jenkins-using-sudo-ubuntu/)
 
 ```
-$ sudo visudo /etc/sudoers
+$ sudo visudo -f /etc/sudoers
 ```
 
 Add:
